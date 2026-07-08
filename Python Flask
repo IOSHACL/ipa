@@ -1,0 +1,17 @@
+from flask import Flask, request
+import requests  # 这是 Python 执行 HTTP 请求的库
+
+app = Flask(__name__)
+
+@app.route('/api/send-sms', methods=['POST'])
+def send_sms():
+    data = request.json
+    phone = data.get('phone')
+    
+    # 循环逻辑：在后端执行，不会受到浏览器限制
+    for i in range(5):  # 假设发送5次
+        # 这里模拟发送请求给短信服务商接口
+        # response = requests.post("https://your-sms-provider.com/api", data={'phone': phone})
+        print(f"正在发送第 {i+1} 次请求到手机: {phone}")
+    
+    return "发送请求已提交"

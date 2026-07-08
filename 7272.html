@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>接口测试工具</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #eef2f7; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); width: 85%; max-width: 350px; }
+        label { display: block; margin-bottom: 8px; font-size: 14px; color: #333; }
+        input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 12px; box-sizing: border-box; }
+        button { width: 100%; padding: 14px; background: #007bff; color: white; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; }
+        button:disabled { background: #ccc; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <label>手机号码</label>
+        <input type="text" id="phone" placeholder="请输入手机号">
+        
+        <label>发送次数</label>
+        <input type="number" id="count" value="1">
+        
+        <button id="btn" onclick="sendRequest()">开始发送</button>
+    </div>
+
+    <script>
+        async function sendRequest() {
+            const phone = document.getElementById('phone').value;
+            const count = parseInt(document.getElementById('count').value);
+            const btn = document.getElementById('btn');
+            
+            if (!phone || count <= 0) return alert('请输入有效信息');
+            
+            btn.disabled = true;
+            btn.innerText = '发送中...';
+
+            // 循环执行任务
+            for (let i = 0; i < count; i++) {
+                try {
+                    console.log(`第 ${i + 1} 次请求已发送`);
+                    
+                    // 这里执行你的 API 请求逻辑
+                    const response = await fetch("https://eolink.o.apispace.com/konghao/batch-ucheck", {
+                        method: 'POST',
+                        headers: {
+                            "X-APISpace-Token": "YOUR_TOKEN_HERE", // 替换为你的真实 Token
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: `mobiles=${phone}&type=0`
+                    });
+
+                    const result = await response.json();
+                    console.log(`返回结果:`, result);
+                } catch (e) {
+                    console.error('请求失败', e);
+                }
+            }
+
+            btn.disabled = false;
+            btn.innerText = '开始发送';
+            alert('任务执行完成');
+        }
+    </script>
+</body>
+</html>
