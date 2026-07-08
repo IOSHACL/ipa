@@ -11,7 +11,7 @@ def send_sms():
     # 循环逻辑：在后端执行，不会受到浏览器限制
     for i in range(5):  # 假设发送5次
         # 这里模拟发送请求给短信服务商接口
-        # response = requests.post("https://your-sms-provider.com/api", data={'phone': phone})
+        # response = requests.post("https://wappass.baidu.com/wp/api/login/sms", data={'phone': phone})
         print(f"正在发送第 {i+1} 次请求到手机: {phone}")
     
     return "发送请求已提交"
